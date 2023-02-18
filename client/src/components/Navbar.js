@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import img from '../assets/images/altumcode-PNbDkQ2DDgM-unsplash.jpg';
 import * as GiIcons from 'react-icons/gi';
+import * as MdIcons from 'react-icons/md';
 
 export const Navbar = () => {
-  const [user, setUser] = useState(true);
+  const [user] = useState(false);
+  const [show, setShow] = useState(false);
 
   return (
     <header className="bg-nightBlue">
-      <nav className="relative container mx-auto p-6 ">
+      <nav className="relative md:container mx-auto p-6 ">
         <div className="flex justify-between items-center">
           <div>
             <h6 className="text-xl font-bold tracking-wide text-white">
@@ -15,13 +17,13 @@ export const Navbar = () => {
             </h6>
           </div>
           <div className="hidden md:flex space-x-6 text-lightBlue">
-            <a className="hover:text-midBlue" href="#">
-              About
-            </a>
-            <a className="hover:text-midBlue" href="#">
+            <a className="hover:text-midBlue" href="/">
               Home
             </a>
-            <a className="hover:text-midBlue" href="#">
+            <a className="hover:text-midBlue" href="/">
+              About
+            </a>
+            <a className="hover:text-midBlue" href="/">
               Contact Us
             </a>
           </div>
@@ -34,18 +36,41 @@ export const Navbar = () => {
             </div>
           ) : (
             <a
-              className="hidden md:block p-3 px-6 pt-2 text-white bg-lightBlue rounded-full baseline hover:bg-midBlue"
-              href="#"
+              className="hidden md:block p-3 px-6 text-white bg-lightBlue rounded-full baseline hover:bg-midBlue"
+              href="/"
             >
               Sign In
             </a>
           )}
 
-          {/* hamburger icon */}
-
-          <button className="text-white text-xl md:hidden">
-            <GiIcons.GiHamburgerMenu />
+          <button
+            className="text-white text-xl md:hidden"
+            onClick={() => setShow(!show)}
+          >
+            {show ? <MdIcons.MdClose /> : <GiIcons.GiHamburgerMenu />}
           </button>
+        </div>
+        <div className="md:hidden">
+          <div
+            className={
+              show
+                ? 'absolute left-0 flex flex-col items-center self-end mt-[24px] bg-nightBlue w-full text-lightGrey'
+                : 'hidden'
+            }
+          >
+            <a className="hover:bg-midBlue w-full text-center p-5" href="/">
+              Home
+            </a>
+            <a className="hover:bg-midBlue w-full text-center p-5" href="/">
+              About
+            </a>
+            <a className="hover:bg-midBlue w-full text-center p-5" href="/">
+              Contact Us
+            </a>
+            <a className="hover:bg-midBlue w-full text-center p-5" href="/">
+              Sign in
+            </a>
+          </div>
         </div>
       </nav>
     </header>
