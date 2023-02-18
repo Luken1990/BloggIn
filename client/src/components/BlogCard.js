@@ -44,7 +44,7 @@ export const BlogCard = (prop) => {
       <div className="flex gap-3">
         {category.map((item) => {
           return (
-            <a className="text-xs border py-1 px-2 rounded-full" href="">
+            <a className="text-xs border py-1 p-2 rounded-full" href="">
               {item}
             </a>
           );

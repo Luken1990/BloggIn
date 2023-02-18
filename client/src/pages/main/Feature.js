@@ -54,7 +54,7 @@ export const Feature = () => {
   ];
 
   return (
-    <section className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section className="mx-auto max-w-7xl my-24">
       <div className="flex justify-between mb-12">
         <h2 className="text-4xl">Featured Articles</h2>
         <div className="text-4xl">
