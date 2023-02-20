@@ -4,7 +4,7 @@ import * as AiIcons from 'react-icons/ai';
 export const BlogCard = (prop) => {
   const { image, title, description, author, date, category, likes } = prop.post;
   return (
-    <div className="p-8 box-border rounded-lg shadow-xl">
+    <div className="p-8 box-border shadow sm:overflow-hidden sm:rounded-md">
       <figure className="mb-5 ">
         <img className="object-cover h-72 w-full" src={image} alt={title} />
       </figure>

@@ -1,5 +1,7 @@
 import { Navbar } from './components/Navbar';
 import { Main } from './pages/main/Main';
+import { Profile } from './pages/profile/Profile';
+import { Article } from './pages/article/Article';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -8,6 +10,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Main />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/article" element={<Article/>} />
       </Routes>
     </BrowserRouter>
   );

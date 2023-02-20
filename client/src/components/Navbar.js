@@ -20,11 +20,11 @@ export const Navbar = () => {
             <a className="hover:text-midBlue" href="/">
               Home
             </a>
-            <a className="hover:text-midBlue" href="/">
-              About
+            <a className="hover:text-midBlue" href="/profile">
+              Profile
             </a>
-            <a className="hover:text-midBlue" href="/">
-              Contact Us
+            <a className="hover:text-midBlue" href="/article">
+              article
             </a>
           </div>
           {user ? (
