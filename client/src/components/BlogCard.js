@@ -42,9 +42,9 @@ export const BlogCard = (prop) => {
       </div>
 
       <div className="flex gap-3">
-        {category.map((item) => {
+        {category.map((item , index) => {
           return (
-            <a className="text-xs border py-1 p-2 rounded-full" href="">
+            <a key={index} className="text-xs border py-1 p-2 rounded-full" href="">
               {item}
             </a>
           );
