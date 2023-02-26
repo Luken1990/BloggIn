@@ -8,7 +8,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const { picture, name, email, password, socials } = req.body;
 
   //if one of the field is empty throw error status 400 and message
-  if (!email || !password) {
+  if (!name || !email || !password) {
     res.status(400);
     throw new Error('Please add all fields');
   }
@@ -19,7 +19,7 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('User already exist');
   }
-
+ 
   //create a hash password
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(password, salt);

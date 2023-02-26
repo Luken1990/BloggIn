@@ -18,3 +18,4 @@ router.post('/register', registerUser);
 router.get('/', checkJWTToken, getUser);
 
 module.exports = router;
+ 

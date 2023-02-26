@@ -9,6 +9,25 @@ import { userContext } from './context/userContext';
 import { loginContext } from './context/loginContext';
 
 function App() {
+  // const [isLoggedIn, setIsLoggedIn] = useState(true);
+  // const [user, setUser] = useContext(userContext);
+
+  // const getCurrentUser = async () => {
+  //   const token = JSON.parse(sessionStorage.getItem('token'));
+  //   const response = await fetch(`http://localhost:5000/users:${user._id}`, {
+  //     'Content-Type': 'application/json',
+  //     Authorization: 'Bearers' + token,
+  //   });
+  //   const currentUser = await response.json();
+  //   console.log(currentUser);
+  //   setUser(currentUser);
+  // };
+
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     getCurrentUser();
+  //   }
+  // }, []);
 
   return (
     <BrowserRouter>
@@ -17,7 +36,7 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/sign" element={<Sign />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/article" element={<Article />} />
+        <Route path="/article/:id" element={<Article />} />
       </Routes>
     </BrowserRouter>
   );

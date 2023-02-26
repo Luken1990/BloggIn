@@ -1,57 +1,69 @@
-import React from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { userContext } from '../../context/userContext';
+import { formatISO9075 } from 'date-fns';
 
 export const Article = () => {
-  const tags = ['HTML', 'CSS', 'JavaScript'];
-  const user = {
-    name: 'Jane Smith',
-    img: 'https://web-dev.imgix.net/image/admin/dUAN2DEXHRT6G6iPrIby.jpg?auto=format&w=216',
-    email: 'janeSmith@gmail.com',
-    country: 'United Kingdom',
+  const [article, setArticle] = useState(null);
+  const [user, setUser] = useContext(userContext);
+  const { id } = useParams();
+
+  const getBlog = async () => {
+    const response = await fetch(`http://localhost:5000/blogs/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const blogData = await response.json();
+    setArticle(blogData);
   };
 
-  const article = {
-    title: 'A developer Journey',
-    subHeading:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aperiam etrepellendus hic placeat doloremque neque porro provident.',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit sint minima fugit, quis quos sed, cumque, molestiae amet voluptas quasi dignissimos. Itaque magni tempore illum laudantium quod quo, consequatur amet.',
-    date: '09/02/2023',
-  };
+  useEffect(() => {
+    getBlog();
+  }, []);
 
+  if (!article) return '';
+
+  const { _id, image, heading, tags, text, createdAt, likes } = article;
   return (
-    <div className="container mx-auto max-w-7xl my-24">
+    <div className="container mx-auto my-24 max-w-7xl">
       <div className="md:grid md:grid-cols-4 md:gap-10">
-        <figure className="mb-10 md:col-span-2 md:mb-0 overflow-hidden rounded-2xl">
-          <img
-            className="h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1536104968055-4d61aa56f46a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGRldmVsb3BlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-            alt=""
-          />
+        <figure className="mb-10 overflow-hidden rounded-2xl md:col-span-2 md:mb-0">
+          <img className="h-full w-full object-cover" src={`http://localhost:5000/${image}`} alt={heading} />
         </figure>
         <div className="md:col-span-2 ">
-          <div id="tags" className="flex flex-wrap gap-3 mb-5">
-            {tags.map((item) => {
+          <div id="tags" className="mb-5 flex flex-wrap gap-3">
+            {tags.map((item, index) => {
               return (
-                <span className="bg-midBlue rounded-md text-white px-2 py-1 text-xs">
+                <span
+                  key={index}
+                  className="rounded-md bg-midBlue px-2 py-1 text-xs text-white"
+                >
                   {item}
                 </span>
               );
             })}
           </div>
-          <h1 className="text-3xl mb-5">{article.title}</h1>
-          <h4 className="mb-10 text-sm italic">{article.subHeading}</h4>
-
-          <div className="flex justify-between items-center mb-5">
-            <div className="flex items-center gap-3 justify-center">
-              <figure className="w-10 rounded-full overflow-hidden">
-                <img src={user.img} alt={user.name} />
+          <h1 className="mb-5 text-3xl">{heading}</h1>
+          <div className="mb-5 flex items-center justify-between">
+            <div className="flex items-center justify-center gap-3">
+              <figure className="w-10 overflow-hidden rounded-full">
+                <img src="" alt="" />
               </figure>
-              <p className="text-sm font-semibold">{user.name}</p>
+              <p className="text-sm font-semibold">Jill SMith</p>
             </div>
-            <small className="text-xs text-midGrey">{article.date}</small>
+            <small className="text-xs text-midGrey">
+              {formatISO9075(new Date(createdAt))}
+            </small>
           </div>
-          <p className="text-darkGrey leading-relaxed">{article.text}</p>
+          <div
+            className="leading-relaxed text-darkGrey"
+            dangerouslySetInnerHTML={{ __html: text }}
+          />
         </div>
       </div>
     </div>
   );
 };
+
+//       <h4 className="mb-10 text-sm italic">{article.subHeading}</h4>

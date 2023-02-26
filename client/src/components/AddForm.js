@@ -1,6 +1,52 @@
-import React from 'react';
+import { React, useRef, useState, useContext } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { tags } from '../data/Tags';
+import { userContext } from '../context/userContext';
 
 export const AddForm = () => {
+  const [user, setUser] = useContext(userContext);
+  const [image, setImage] = useState('');
+  const headingRef = useRef('');
+  const textRef = useRef('');
+  let category = [];
+
+  const handleTag = (arr) => {
+    const name = arr.name;
+    if (!category.includes(name)) {
+      category.push(name);
+    } else {
+      const index = category.indexOf(name);
+      category.splice(index, 1);
+    }
+  };
+
+  const handleNewBlog = async (e) => {
+    e.preventDefault();
+
+    let blogInfo = new FormData();
+    blogInfo.set('image', image[0]);
+    blogInfo.set('heading', headingRef.current.value);
+    blogInfo.set('text', textRef.current.value);
+    blogInfo.set('tags', JSON.stringify(category));
+    blogInfo.set('likes', 0);
+
+    const response = await fetch('http://localhost:5000/blogs/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + user.token,
+      },
+      body: blogInfo,
+    });
+    await response.json();
+
+    setImage('');
+    textRef.current.value = '';
+    headingRef.current.value = '';
+    textRef.current.value = ''
+  };
+
   return (
     <form action="#" method="POST" className="mt-6">
       <div className="shadow sm:overflow-hidden sm:rounded-md">
@@ -19,9 +65,32 @@ export const AddForm = () => {
                   name="title"
                   id="title"
                   className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  placeholder="www.example.com"
+                  placeholder="My first blog"
+                  ref={headingRef}
                 />
               </div>
+            </div>
+          </div>
+
+          <div>
+            <label
+              htmlFor="about"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Category
+            </label>
+            <div className="mt-1">
+              {tags.map((item, index) => {
+                return (
+                  <span
+                    onClick={() => handleTag(item)}
+                    className="my-3 mr-3 inline-block overflow-hidden rounded-md border py-1 px-2 text-2xl text-midBlue hover:border-midBlue hover:bg-midBlue hover:text-white"
+                    key={index}
+                  >
+                    {item.icon}
+                  </span>
+                );
+              })}
             </div>
           </div>
 
@@ -33,14 +102,7 @@ export const AddForm = () => {
               Description
             </label>
             <div className="mt-1">
-              <textarea
-                id="about"
-                name="about"
-                rows={3}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                placeholder="you@example.com"
-                defaultValue={''}
-              />
+              <ReactQuill theme="snow" name="text" ref={textRef} />
             </div>
           </div>
 
@@ -75,6 +137,7 @@ export const AddForm = () => {
                       name="file-upload"
                       type="file"
                       className="sr-only"
+                      onChange={(e) => setImage(e.target.files)}
                     />
                   </label>
                   <p className="pl-1">or drag and drop</p>
@@ -88,7 +151,7 @@ export const AddForm = () => {
         </div>
         <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
           <button
-            type="submit"
+            onClick={handleNewBlog}
             className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             Add

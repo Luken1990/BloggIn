@@ -1,13 +1,19 @@
 const Blog = require('../models/blogSchema');
 const User = require('../models/userSchema');
 const asyncHandler = require('express-async-handler');
+const fs = require('fs');
 
 const addBlog = asyncHandler(async (req, res) => {
+  const { originalname, path } = req.file;
+  const parts = originalname.split('.');
+  const ext = parts.at(-1);
+  const newPath = `${path}.${ext}`;
+  fs.renameSync(path, newPath);
+
   const newBlog = new Blog({
-    image: req.body.image,
+    image: newPath,
     title: req.body.title,
     heading: req.body.heading,
-    subHeading: req.body.subHeading,
     text: req.body.text,
     tags: req.body.tags,
     likes: req.body.likes,
@@ -15,7 +21,12 @@ const addBlog = asyncHandler(async (req, res) => {
   });
 
   const blog = await newBlog.save();
-  res.status(200).json(todo);
+  res.status(200).json(blog);
+});
+
+const getAllBlogs = asyncHandler(async (req, res) => {
+  const blog = await Blog.find();
+  res.status(200).json(blog);
 });
 
 //find using id status 200 ok
@@ -88,7 +99,9 @@ const deleteBlog = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  getAllBlogs,
   getBlogs,
+  getBlog,
   addBlog,
   updateBlog,
   deleteBlog,

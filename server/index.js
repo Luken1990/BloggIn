@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 app.get('/', (req, res) => {
   res.json('Hello');
@@ -28,4 +29,3 @@ app.listen(PORT, () => {
   console.log(`Application up and running on port: http://localhost:${PORT}`);
 });
 module.exports = app;
- 

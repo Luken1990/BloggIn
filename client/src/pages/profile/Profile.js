@@ -1,13 +1,15 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, Fragment, useRef, useState } from 'react';
 import * as AiIcons from 'react-icons/ai';
 import * as BsIcons from 'react-icons/bs';
 import { userContext } from '../../context/userContext';
 import { SmBlogCard } from '../../components/SmBlogCard';
 import { AddForm } from '../../components/AddForm';
+import { SocialInput } from '../../components/socialInput';
+import { Dialog, Transition } from '@headlessui/react';
 
 export const Profile = () => {
   const [user, setUser] = useContext(userContext);
-  
+
   return (
     <div className="container mx-auto my-24 max-w-7xl">
       <div className="mx-6 lg:mx-8">
@@ -48,16 +50,17 @@ export const Profile = () => {
                       <BsIcons.BsGlobe2 />
                     </a>
                   </div>
-                ) : null}
+                ) : (
+                  // <button>Add Socials</button>
+                  <SocialInput />
+                )}
               </div>
             </div>
             <AddForm />
           </div>
 
           <div className="mt-5 md:col-span-2 md:mt-0">
-            <div className="shadow sm:overflow-hidden sm:rounded-md">
-              <SmBlogCard />
-            </div>
+            <SmBlogCard />
           </div>
         </div>
       </div>

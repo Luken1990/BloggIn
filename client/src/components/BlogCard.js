@@ -1,50 +1,72 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { formatISO9075 } from 'date-fns';
 import * as AiIcons from 'react-icons/ai';
 
 export const BlogCard = (prop) => {
-  const { image, title, description, author, date, category, likes } = prop.post;
+  const { _id, image, heading, tags, text, createdAt, likes, user } = prop.post;
+  const [author, setAuthor] = useState('');
+
+  const handleLink = () => {};
+
   return (
-    <div className="p-8 box-border shadow sm:overflow-hidden sm:rounded-md">
+    <div className="box-border p-8 shadow sm:overflow-hidden sm:rounded-md">
       <figure className="mb-5 ">
-        <img className="object-cover h-72 w-full" src={image} alt={title} />
+        <Link to={`/article/${_id}`}>
+          <img className="h-72 w-full object-cover" src={image} alt={heading} />
+        </Link>
       </figure>
 
-      <div className="flex items-center justify-between mb-5">
+      <div className="mb-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <figure className="w-9 rounded-full overflow-hidden">
-            <img className="object-cover" src={author.picture} alt="" />
+          <figure className="w-9 overflow-hidden rounded-full">
+            <img className="object-cover" src="" alt="" />
           </figure>
           <div>
-            <h6 className="text-sm font-semibold">{author.name}</h6>
-            <small className="text-xs text-midGrey">{date}</small>
+            <h6 className="text-sm font-semibold">Jim Smith</h6>
+            <small className="text-xs text-midGrey">
+              {formatISO9075(new Date(createdAt))}
+            </small>
           </div>
         </div>
       </div>
 
       <div className="mb-5">
-        <h3 className="text-2xl mb-2 text-midBlue font-bold">{title}</h3>
-        <p>
-          {description.length > 80
-            ? description.substring(0, 80) + '...'
-            : description}
-        </p>
+        <Link to={`/article/${_id}`}>
+          <h3 className="mb-2 text-2xl font-bold text-midBlue">{heading}</h3>
+        </Link>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: text.length > 80 ? text.substring(0, 80) + '...' : text,
+          }}
+        />
       </div>
 
-      <div className="flex items-center gap-3 mb-5">
-        <button className="border p-1 hover:border-midBlue rounded-full box-border">
+      <div className="mb-5 flex items-center gap-3">
+        <button
+          onClick={handleLink}
+          type="button"
+          className="box-border rounded-full border p-1 hover:border-midBlue"
+        >
           <AiIcons.AiOutlineShareAlt />
         </button>
-        <button className="border p-1 hover:border-midBlue rounded-full box-border">
+        <button
+          type="button"
+          className="box-border rounded-full border p-1 hover:border-midBlue"
+        >
           <AiIcons.AiOutlineLike />
         </button>
-        <small className='text-midGrey'>{likes}</small>
-        
+        <small className="text-midGrey">{likes}</small>
       </div>
 
       <div className="flex gap-3">
-        {category.map((item , index) => {
+        {tags.map((item, index) => {
           return (
-            <a key={index} className="text-xs border py-1 p-2 rounded-full" href="">
+            <a
+              key={index}
+              className="rounded-full border p-2 py-1 text-xs"
+              href=""
+            >
               {item}
             </a>
           );
@@ -53,3 +75,7 @@ export const BlogCard = (prop) => {
     </div>
   );
 };
+
+{
+  /* <div dangerouslySetInnerHTML={{ __html: text }} /> */
+}
