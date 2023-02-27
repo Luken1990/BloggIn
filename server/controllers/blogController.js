@@ -56,7 +56,7 @@ const updateBlog = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error('User not found');
   }
-
+ 
   //if the todo item user id does not match the user id throw error (401) (unauthorized)
   if (blog.user.toString() !== user.id) {
     res.status(401);

@@ -5,7 +5,8 @@ const asyncHandler = require('express-async-handler');
 
 //function to register user
 const registerUser = asyncHandler(async (req, res) => {
-  const { picture, name, email, password, socials } = req.body;
+  const { picture, name, email, password, github, linkedin, website } =
+    req.body;
 
   //if one of the field is empty throw error status 400 and message
   if (!name || !email || !password) {
@@ -19,17 +20,19 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('User already exist');
   }
- 
+
   //create a hash password
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(password, salt);
-  
+
   //create user
   const user = await User.create({
     picture,
     name,
     email,
-    socials,
+    github,
+    linkedin,
+    website,
     password: hashPassword,
   });
 
@@ -40,7 +43,9 @@ const registerUser = asyncHandler(async (req, res) => {
       picture: user.picture,
       name: user.name,
       email: user.email,
-      socials: user.socials,
+      github: user.github,
+      linkedin: user.linkedin,
+      website: user.website,
       token: generateToken(user._id),
     });
   } else {
@@ -63,7 +68,9 @@ const userLogin = asyncHandler(async (req, res) => {
       picture: user.picture,
       name: user.name,
       email: user.email,
-      socials: user.socials,
+      github: user.github,
+      linkedin: user.linkedin,
+      website: user.website,
       token: generateToken(user._id),
     });
   } else {
@@ -74,15 +81,34 @@ const userLogin = asyncHandler(async (req, res) => {
 
 //find user by id in the database
 const getUser = asyncHandler(async (req, res) => {
-  const { _id, name, email } = await User.findById(req.user.id);
+  const { _id, name, email, picture, github, linkedin, website } =
+    await User.findById(req.user.id);
 
   res.status(200).json({
     id: _id,
     picture,
     name,
     email,
-    socials,
+    github,
+    linkedin,
+    website,
   });
+});
+
+const getAuthor = asyncHandler(async (req, res) => {
+  const { _id, name, picture } = await User.findById(req.params.id);
+
+  res.status(200).json({
+    picture,
+    name,
+  });
+});
+
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id);
+  await User.findByIdAndUpdate(user, req.body);
+
+  res.status(200).json({ user });
 });
 
 //generate jwt token
@@ -93,7 +119,9 @@ const generateToken = (id) => {
 };
 
 module.exports = {
-  getUser,
-  userLogin,
   registerUser,
+  userLogin,
+  getUser,
+  getAuthor,
+  updateUser,
 };

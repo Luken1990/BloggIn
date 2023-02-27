@@ -18,7 +18,7 @@ const BlogSchema = new mongoose.Schema(
       required: true,
     },
     text: {
-      type: String,
+      type: String, 
       trim: true,
       required: true,
     },

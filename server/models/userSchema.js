@@ -7,8 +7,7 @@ const UserSchema = new Schema(
     picture: {
       type: String,
       trim: true,
-      default:
-        'https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg',
+      default: '',
     },
     name: {
       type: String,
@@ -27,9 +26,20 @@ const UserSchema = new Schema(
       trim: true,
       required: true,
     },
-    socials: {
-      type: Array,
-      default: [],
+    github: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    linkedin: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    website: {
+      type: String,
+      trim: true,
+      default: '',
     },
   },
   {

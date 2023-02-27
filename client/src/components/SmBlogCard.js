@@ -2,10 +2,11 @@ import { Fragment, useState, useEffect, useContext } from 'react';
 import { userContext } from '../context/userContext';
 import { Link } from 'react-router-dom';
 import { formatISO9075 } from 'date-fns';
+import EditModal from './EditModal';
 
 export const SmBlogCard = () => {
   // const [user, setUser] = useContext(userContext);
-  const token = JSON.parse(sessionStorage.getItem('token'))
+  const token = JSON.parse(sessionStorage.getItem('token'));
   const [post, setPost] = useState([]);
 
   const getUserBlogs = async () => {
@@ -75,12 +76,7 @@ export const SmBlogCard = () => {
                 </small>
               </div>
               <div className="mt-6 flex flex-row gap-4">
-                <button
-                  type="button"
-                  className="mr-2 mb-2 rounded-full bg-nightBlue px-5 py-2.5 text-sm font-medium text-white"
-                >
-                  Edit
-                </button>
+                <EditModal data={blog} />
                 <button
                   type="button"
                   onClick={() => handleDelete(blog._id)}

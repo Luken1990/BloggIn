@@ -4,11 +4,31 @@ import { Profile } from './pages/profile/Profile';
 import { Sign } from './pages/signIn/Sign';
 import { Article } from './pages/article/Article';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import { userContext } from './context/userContext';
-import { loginContext } from './context/loginContext';
 
 function App() {
+  return (
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/sign" element={<Sign />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/article/:id" element={<Article />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+
+
+
+
+// import { useContext, useEffect, useState } from 'react';
+// import { userContext } from './context/userContext';
+// import { loginContext } from './context/loginContext';
+
+
   // const [isLoggedIn, setIsLoggedIn] = useState(true);
   // const [user, setUser] = useContext(userContext);
 
@@ -28,18 +48,3 @@ function App() {
   //     getCurrentUser();
   //   }
   // }, []);
-
-  return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/sign" element={<Sign />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/article/:id" element={<Article />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
-
-export default App;

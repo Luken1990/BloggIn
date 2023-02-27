@@ -1,14 +1,13 @@
 import * as AiIcons from 'react-icons/ai';
 import * as BsIcons from 'react-icons/bs';
-import { useContext, useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { userContext } from '../../context/userContext';
 
 export const Sign = () => {
   const [signIn, setSignIn] = useState(true);
+  const nameRef = useRef('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useContext(userContext);
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
@@ -25,7 +24,6 @@ export const Sign = () => {
 
     if (response.status === 200) {
       const currentUser = await response.json();
-      setUser(currentUser);
       sessionStorage.setItem('token', JSON.stringify(currentUser.token));
       navigate('/profile');
     }
@@ -33,7 +31,11 @@ export const Sign = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    const data = { email, password };
+    const data = {
+      name: nameRef.current.value,
+      email,
+      password,
+    };
 
     const response = await fetch('http://localhost:5000/users/register', {
       method: 'POST',
@@ -45,7 +47,6 @@ export const Sign = () => {
 
     if (response.status === 201) {
       const currentUser = await response.json();
-      setUser(currentUser);
       sessionStorage.setItem('token', JSON.stringify(currentUser.token));
       navigate('/profile');
     }
@@ -65,10 +66,20 @@ export const Sign = () => {
         <form className="mt-8 space-y-6" action="#" method="POST">
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="-space-y-px rounded-md shadow-sm">
+            {signIn ? null : (
+              <div>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  required
+                  className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-midBlue focus:outline-none focus:ring-midBlue sm:text-sm"
+                  placeholder="Full name"
+                  ref={nameRef}
+                />
+              </div>
+            )}
             <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
-              </label>
               <input
                 id="email-address"
                 name="email"
@@ -82,9 +93,6 @@ export const Sign = () => {
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
               <input
                 id="password"
                 name="password"
@@ -166,3 +174,7 @@ export const Sign = () => {
     </div>
   );
 };
+
+//import { userContext } from '../../context/userContext';
+// const [user, setUser] = useContext(userContext);
+// setUser(currentUser);

@@ -7,10 +7,24 @@ export const BlogCard = (prop) => {
   const { _id, image, heading, tags, text, createdAt, likes, user } = prop.post;
   const [author, setAuthor] = useState('');
 
+  const getAuthor = async () => {
+    const response = await fetch(`http://localhost:5000/users/${user}`, {
+      headers: {
+        headers: { 'Content-Type': 'application/json' },
+      },
+    });
+    const authorInfo = await response.json();
+    setAuthor(authorInfo);
+  };
+
+  useEffect(() => {
+    getAuthor();
+  }, []);
+
   const handleLink = () => {};
 
   return (
-    <div className="box-border p-8 shadow sm:overflow-hidden sm:rounded-md">
+    <article className="box-border p-8 shadow sm:overflow-hidden sm:rounded-md">
       <figure className="mb-5 ">
         <Link to={`/article/${_id}`}>
           <img className="h-72 w-full object-cover" src={image} alt={heading} />
@@ -19,11 +33,15 @@ export const BlogCard = (prop) => {
 
       <div className="mb-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <figure className="w-9 overflow-hidden rounded-full">
-            <img className="object-cover" src="" alt="" />
+          <figure className="w-9 h-9 overflow-hidden rounded-full">
+            <img
+              className="object-cover w-full h-full"
+              src={author.picture}
+              alt={author.name}
+            />
           </figure>
           <div>
-            <h6 className="text-sm font-semibold">Jim Smith</h6>
+            <h6 className="text-sm font-semibold">{author.name}</h6>
             <small className="text-xs text-midGrey">
               {formatISO9075(new Date(createdAt))}
             </small>
@@ -72,7 +90,7 @@ export const BlogCard = (prop) => {
           );
         })}
       </div>
-    </div>
+    </article>
   );
 };
 

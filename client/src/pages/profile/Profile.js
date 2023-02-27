@@ -1,14 +1,34 @@
 import { useContext, useEffect, Fragment, useRef, useState } from 'react';
 import * as AiIcons from 'react-icons/ai';
 import * as BsIcons from 'react-icons/bs';
+import * as FiIcons from 'react-icons/fi';
 import { userContext } from '../../context/userContext';
 import { SmBlogCard } from '../../components/SmBlogCard';
 import { AddForm } from '../../components/AddForm';
-import { SocialInput } from '../../components/socialInput';
-import { Dialog, Transition } from '@headlessui/react';
+import { SocialInput } from './UserInput';
+import { UserInfoModal } from '../../components/UserInfoModal';
 
 export const Profile = () => {
   const [user, setUser] = useContext(userContext);
+
+  const token = JSON.parse(sessionStorage.getItem('token'));
+
+  const getCurrentUser = async () => {
+    const response = await fetch('http://localhost:5000/users', {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    const currentUser = await response.json();
+
+    setUser(currentUser);
+  };
+
+  useEffect(() => {
+    getCurrentUser();
+  }, [user]);
+
+  if (!user) return '';
 
   return (
     <div className="container mx-auto my-24 max-w-7xl">
@@ -17,43 +37,41 @@ export const Profile = () => {
           <div className="md:col-span-2 ">
             <div className="shadow sm:overflow-hidden sm:rounded-md">
               <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
-                <div className="flex flex-col items-center justify-center">
-                  <figure className="mb-5 w-40 overflow-hidden rounded-full">
-                    <img
-                      className="h-full w-full object-cover"
-                      src={user.picture}
-                      alt={user.name}
-                    />
-                  </figure>
+                <div className="relative flex flex-col items-center justify-center">
+                  {user.picture ? (
+                    <figure className="mb-5 h-40 w-40 overflow-hidden rounded-full">
+                      <img
+                        className="h-full w-full object-cover"
+                        src={user.picture}
+                        alt={user.name}
+                      />
+                    </figure>
+                  ) : null}
+                  <UserInfoModal user={user} />
                   <h3 className="mb-1 text-xl">{user.name}</h3>
                   <p className="mb-1 text-sm text-midGrey">{user.email}</p>
-                  <p className="text-xs text-midGrey">{user.country}</p>
+                  {/* <p className="text-xs text-midGrey">{user.country}</p> */}
                 </div>
-                {user.social ? (
-                  <div className="flex justify-center gap-3 text-2xl text-midBlue ">
-                    <a
-                      className="hover:text-darkBlue"
-                      href={user.socials.linkedIn}
-                    >
-                      <AiIcons.AiOutlineLinkedin />
-                    </a>
-                    <a
-                      className="hover:text-darkBlue"
-                      href={user.socials.gitHub}
-                    >
-                      <AiIcons.AiOutlineGithub />
-                    </a>
-                    <a
-                      className="hover:text-darkBlue"
-                      href={user.socials.website}
-                    >
-                      <BsIcons.BsGlobe2 />
-                    </a>
-                  </div>
-                ) : (
-                  // <button>Add Socials</button>
-                  <SocialInput />
-                )}
+
+                <div className="flex justify-center gap-3 text-2xl text-midBlue ">
+                  <>
+                    {user.linkedin ? (
+                      <a className="hover:text-darkBlue" href={user.linkedin}>
+                        <AiIcons.AiOutlineLinkedin />
+                      </a>
+                    ) : null}
+                    {user.github ? (
+                      <a className="hover:text-darkBlue" href={user.github}>
+                        <AiIcons.AiOutlineGithub />
+                      </a>
+                    ) : null}
+                    {user.website ? (
+                      <a className="hover:text-darkBlue" href={user.website}>
+                        <BsIcons.BsGlobe2 />
+                      </a>
+                    ) : null}
+                  </>
+                </div>
               </div>
             </div>
             <AddForm />

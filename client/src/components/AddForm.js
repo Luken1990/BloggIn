@@ -5,6 +5,7 @@ import { tags } from '../data/Tags';
 import { userContext } from '../context/userContext';
 
 export const AddForm = () => {
+  const token = JSON.parse(sessionStorage.getItem('token'));
   const [user, setUser] = useContext(userContext);
   const [image, setImage] = useState('');
   const headingRef = useRef('');
@@ -34,8 +35,7 @@ export const AddForm = () => {
     const response = await fetch('http://localhost:5000/blogs/add', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + user.token,
+        Authorization: 'Bearer ' + token,
       },
       body: blogInfo,
     });
