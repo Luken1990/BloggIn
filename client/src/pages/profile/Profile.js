@@ -1,12 +1,11 @@
 import { useContext, useEffect, Fragment, useRef, useState } from 'react';
 import * as AiIcons from 'react-icons/ai';
 import * as BsIcons from 'react-icons/bs';
-import * as FiIcons from 'react-icons/fi';
 import { userContext } from '../../context/userContext';
 import { SmBlogCard } from '../../components/SmBlogCard';
-import { AddForm } from '../../components/AddForm';
+import { AddForm } from './AddForm';
 import { SocialInput } from './UserInput';
-import { UserInfoModal } from '../../components/UserInfoModal';
+import { UserInfoModal } from './UserInfoModal';
 
 export const Profile = () => {
   const [user, setUser] = useContext(userContext);

@@ -1,52 +1,18 @@
-import { React, useRef, useState, useContext } from 'react';
+import React from 'react';
+import { tags } from '../../data/Tags';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { tags } from '../data/Tags';
-import { userContext } from '../context/userContext';
 
-export const AddForm = () => {
-  const token = JSON.parse(sessionStorage.getItem('token'));
-  const [user, setUser] = useContext(userContext);
-  const [image, setImage] = useState('');
-  const headingRef = useRef('');
-  const textRef = useRef('');
-  let category = [];
-
-  const handleTag = (arr) => {
-    const name = arr.name;
-    if (!category.includes(name)) {
-      category.push(name);
-    } else {
-      const index = category.indexOf(name);
-      category.splice(index, 1);
-    }
-  };
-
-  const handleNewBlog = async (e) => {
-    e.preventDefault();
-
-    let blogInfo = new FormData();
-    blogInfo.set('image', image[0]);
-    blogInfo.set('heading', headingRef.current.value);
-    blogInfo.set('text', textRef.current.value);
-    blogInfo.set('tags', JSON.stringify(category));
-    blogInfo.set('likes', 0);
-
-    const response = await fetch('http://localhost:5000/blogs/add', {
-      method: 'POST',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-      body: blogInfo,
-    });
-    await response.json();
-
-    setImage('');
-    textRef.current.value = '';
-    headingRef.current.value = '';
-    textRef.current.value = ''
-  };
-
+export const FormFields = ({
+  heading,
+  setHeading,
+  tag,
+  text,
+  setText,
+  setImage,
+  handleTag,
+  handleBlog,
+}) => {
   return (
     <form action="#" method="POST" className="mt-6">
       <div className="shadow sm:overflow-hidden sm:rounded-md">
@@ -66,7 +32,8 @@ export const AddForm = () => {
                   id="title"
                   className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   placeholder="My first blog"
-                  ref={headingRef}
+                  value={heading}
+                  onChange={(e) => setHeading(e.target.value)}
                 />
               </div>
             </div>
@@ -83,8 +50,12 @@ export const AddForm = () => {
               {tags.map((item, index) => {
                 return (
                   <span
+                    className={
+                      tag.includes(item.name)
+                        ? 'my-3 mr-3 inline-block overflow-hidden rounded-md border border-midBlue bg-midBlue  py-1 px-2 text-2xl text-white'
+                        : 'my-3 mr-3 inline-block overflow-hidden rounded-md border py-1 px-2 text-2xl text-midBlue hover:border-midBlue hover:bg-midBlue hover:text-white'
+                    }
                     onClick={() => handleTag(item)}
-                    className="my-3 mr-3 inline-block overflow-hidden rounded-md border py-1 px-2 text-2xl text-midBlue hover:border-midBlue hover:bg-midBlue hover:text-white"
                     key={index}
                   >
                     {item.icon}
@@ -102,10 +73,39 @@ export const AddForm = () => {
               Description
             </label>
             <div className="mt-1">
-              <ReactQuill theme="snow" name="text" ref={textRef} />
+              <ReactQuill
+                theme="snow"
+                name="text"
+                value={text}
+                onChange={(newValue) => setText(newValue)}
+              />
             </div>
           </div>
 
+          <input
+            className="focus:border-primary focus:shadow-primary relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out file:-mx-3 file:-my-1.5 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-1.5 file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[margin-inline-end:0.75rem] file:[border-inline-end-width:1px] hover:file:bg-neutral-200 focus:bg-white focus:text-neutral-700 focus:shadow-[0_0_0_1px] focus:outline-none dark:bg-transparent dark:text-neutral-200 dark:focus:bg-transparent"
+            type="file"
+            id="formFile"
+            multiple
+            onChange={(e) => setImage(e.target.files)}
+          />
+          
+        </div>
+        <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
+          <button
+            onClick={handleBlog}
+            className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+    </form>
+  );
+};
+
+
+  {/* 
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Cover photo
@@ -137,6 +137,7 @@ export const AddForm = () => {
                       name="file-upload"
                       type="file"
                       className="sr-only"
+                      accept=".png, .jpeg, .jpg"
                       onChange={(e) => setImage(e.target.files)}
                     />
                   </label>
@@ -147,17 +148,4 @@ export const AddForm = () => {
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-          <button
-            onClick={handleNewBlog}
-            className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            Add
-          </button>
-        </div>
-      </div>
-    </form>
-  );
-};
+          </div> */}

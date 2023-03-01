@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { Form } from './Form';
 
-export default function EditModal({ data }) {
+export default function EditBlogModal({ data }) {
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -49,24 +49,10 @@ export default function EditModal({ data }) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    {data.heading}
-                  </Dialog.Title>
-                  <Form data={data} />
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Form data={data} closeModal={closeModal} />
 
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModal}
-                    >
-                      Save
-                    </button>
-                  </div>
+                  <div className="mt-4"></div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -75,4 +61,14 @@ export default function EditModal({ data }) {
       </Transition>
     </>
   );
+}
+
+{
+  /* <button
+      type="button"
+      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+      onClick={closeModal}
+      >
+      Save
+      </button> */
 }

@@ -3,6 +3,8 @@ const User = require('../models/userSchema');
 const asyncHandler = require('express-async-handler');
 const fs = require('fs');
 
+//POST operations-------------------------------------------
+
 const addBlog = asyncHandler(async (req, res) => {
   const { originalname, path } = req.file;
   const parts = originalname.split('.');
@@ -12,7 +14,6 @@ const addBlog = asyncHandler(async (req, res) => {
 
   const newBlog = new Blog({
     image: newPath,
-    title: req.body.title,
     heading: req.body.heading,
     text: req.body.text,
     tags: req.body.tags,
@@ -23,6 +24,8 @@ const addBlog = asyncHandler(async (req, res) => {
   const blog = await newBlog.save();
   res.status(200).json(blog);
 });
+
+//GET operations-------------------------------------------
 
 const getAllBlogs = asyncHandler(async (req, res) => {
   const blog = await Blog.find();
@@ -40,9 +43,14 @@ const getBlog = asyncHandler(async (req, res) => {
   res.status(200).json(blog);
 });
 
+//PUT operations-------------------------------------------
+
 const updateBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
+  let newPath = null;
+  const {heading, text, tags, likes } = req.body;
 
+  //check if blog exist 
   if (!blog) {
     res.status(400);
     throw new Error('Blog not found');
@@ -56,17 +64,34 @@ const updateBlog = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error('User not found');
   }
- 
+
   //if the todo item user id does not match the user id throw error (401) (unauthorized)
   if (blog.user.toString() !== user.id) {
     res.status(401);
     throw new Error('User not authorized');
   }
 
+  //check if there is a file
+  if (req.file) {
+    const { originalname, path } = req.file;
+    const parts = originalname.split('.');
+    const ext = parts.at(-1);
+    newPath = `${path}.${ext}`;
+    fs.renameSync(path, newPath);
+  }
+
   //find todo by id then update it
-  const update = await Blog.findByIdAndUpdate(blog, req.body);
+  const update = await Blog.findByIdAndUpdate(blog, {
+    image: newPath ? newPath : blog.image,
+    heading,
+    text,
+    tags,
+    likes,
+  });
   res.status(200).json(update);
 });
+
+//DELETE operations-------------------------------------------
 
 const deleteBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);

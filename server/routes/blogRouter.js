@@ -15,10 +15,10 @@ const {
 const { checkJWTToken, checkContentType } = require('../middleware/middleware');
 
 //post request
-router.post('/add', checkJWTToken, uploadMiddleWare.single('image') ,addBlog);
+router.post('/add', checkJWTToken, uploadMiddleWare.single('image'), addBlog);
 
 //put request
-router.put('/:id', checkJWTToken, updateBlog);
+router.patch('/:id', checkJWTToken, uploadMiddleWare.single('image'), updateBlog);
 
 //get request
 router.get('/all', getAllBlogs);

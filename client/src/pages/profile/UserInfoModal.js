@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import * as FiIcons from 'react-icons/fi';
-import { UserInput } from '../pages/profile/UserInput';
+import { UserInput } from './UserInput';
 
 export function UserInfoModal({ user }) {
   let [isOpen, setIsOpen] = useState(false);

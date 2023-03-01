@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect, useContext } from 'react';
 import { userContext } from '../context/userContext';
 import { Link } from 'react-router-dom';
 import { formatISO9075 } from 'date-fns';
-import EditModal from './EditModal';
+import EditBlogModal from '../pages/profile/EditBlogModal';
 
 export const SmBlogCard = () => {
   // const [user, setUser] = useContext(userContext);
@@ -76,7 +76,7 @@ export const SmBlogCard = () => {
                 </small>
               </div>
               <div className="mt-6 flex flex-row gap-4">
-                <EditModal data={blog} />
+                <EditBlogModal data={blog} />
                 <button
                   type="button"
                   onClick={() => handleDelete(blog._id)}
