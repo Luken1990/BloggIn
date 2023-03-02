@@ -4,7 +4,6 @@ import * as BsIcons from 'react-icons/bs';
 import { userContext } from '../../context/userContext';
 import { SmBlogCard } from '../../components/SmBlogCard';
 import { AddForm } from './AddForm';
-import { SocialInput } from './UserInput';
 import { UserInfoModal } from './UserInfoModal';
 
 export const Profile = () => {

@@ -80,7 +80,7 @@ export const SmBlogCard = () => {
                 <button
                   type="button"
                   onClick={() => handleDelete(blog._id)}
-                  className="mr-2 mb-2 rounded-full bg-nightBlue px-5 py-2.5 text-sm font-medium text-white"
+                  className="inline-flex justify-center rounded-md border border-transparent bg-nightBlue py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-bg-darkBlue focus:outline-none focus:ring-2 focus:ring-bg-darkBlue focus:ring-offset-2"
                 >
                   Delete
                 </button>

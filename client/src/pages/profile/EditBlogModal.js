@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
-import { Form } from './Form';
+import { EditForm } from './EditForm';
 
 export default function EditBlogModal({ data }) {
   let [isOpen, setIsOpen] = useState(false);
@@ -12,14 +12,12 @@ export default function EditBlogModal({ data }) {
     setIsOpen(true);
   }
 
-  const updatePost = () => {};
-
   return (
     <>
       <button
         type="button"
         onClick={openModal}
-        className="mr-2 mb-2 rounded-full bg-nightBlue px-5 py-2.5 text-sm font-medium text-white"
+        className="hover:bg-bg-darkBlue focus:ring-bg-darkBlue inline-flex justify-center rounded-md border border-transparent bg-nightBlue py-2 px-4 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
       >
         Edit
       </button>
@@ -50,7 +48,7 @@ export default function EditBlogModal({ data }) {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Form data={data} closeModal={closeModal} />
+                  <EditForm data={data} closeModal={closeModal} />
 
                   <div className="mt-4"></div>
                 </Dialog.Panel>

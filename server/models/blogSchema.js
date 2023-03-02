@@ -18,8 +18,8 @@ const BlogSchema = new mongoose.Schema(
       required: true,
     },
     text: {
-      type: String, 
-      trim: true, 
+      type: String,
+      trim: true,
       required: true,
     },
     tags: {
@@ -27,7 +27,8 @@ const BlogSchema = new mongoose.Schema(
       required: true,
     },
     likes: {
-      type: Number,
+      type: Array,
+      default: [],
     },
   },
   {

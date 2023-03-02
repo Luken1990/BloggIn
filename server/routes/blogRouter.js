@@ -10,6 +10,7 @@ const {
   addBlog,
   deleteBlog,
   updateBlog,
+  updateLikes,
 } = require('../controllers/blogController');
 
 const { checkJWTToken, checkContentType } = require('../middleware/middleware');
@@ -18,7 +19,10 @@ const { checkJWTToken, checkContentType } = require('../middleware/middleware');
 router.post('/add', checkJWTToken, uploadMiddleWare.single('image'), addBlog);
 
 //put request
-router.patch('/:id', checkJWTToken, uploadMiddleWare.single('image'), updateBlog);
+router.put('/:id', checkJWTToken, uploadMiddleWare.single('image'), updateBlog);
+
+//patch request
+router.patch('/:id', checkJWTToken, updateLikes);
 
 //get request
 router.get('/all', getAllBlogs);

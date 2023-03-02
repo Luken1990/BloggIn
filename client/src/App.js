@@ -20,31 +20,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-// import { useContext, useEffect, useState } from 'react';
-// import { userContext } from './context/userContext';
-// import { loginContext } from './context/loginContext';
-
-
-  // const [isLoggedIn, setIsLoggedIn] = useState(true);
-  // const [user, setUser] = useContext(userContext);
-
-  // const getCurrentUser = async () => {
-  //   const token = JSON.parse(sessionStorage.getItem('token'));
-  //   const response = await fetch(`http://localhost:5000/users:${user._id}`, {
-  //     'Content-Type': 'application/json',
-  //     Authorization: 'Bearers' + token,
-  //   });
-  //   const currentUser = await response.json();
-  //   console.log(currentUser);
-  //   setUser(currentUser);
-  // };
-
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     getCurrentUser();
-  //   }
-  // }, []);

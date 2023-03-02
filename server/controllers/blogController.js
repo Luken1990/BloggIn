@@ -48,9 +48,9 @@ const getBlog = asyncHandler(async (req, res) => {
 const updateBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
   let newPath = null;
-  const {heading, text, tags, likes } = req.body;
+  const { heading, text, tags, likes } = req.body;
 
-  //check if blog exist 
+  //check if blog exist
   if (!blog) {
     res.status(400);
     throw new Error('Blog not found');
@@ -91,6 +91,23 @@ const updateBlog = asyncHandler(async (req, res) => {
   res.status(200).json(update);
 });
 
+//PATCH operations-------------------------------------------
+
+const updateLikes = asyncHandler(async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+
+  if (
+    blog.likes.filter((item) => item.user.toString() === req.user.id).length > 0
+  ) {
+    res.status(400);
+    throw new Error('User have already liked');
+  }
+
+  blog.likes.unshift({ user: req.user.id });
+  await blog.save();
+  res.json(blog);
+});
+
 //DELETE operations-------------------------------------------
 
 const deleteBlog = asyncHandler(async (req, res) => {
@@ -129,5 +146,11 @@ module.exports = {
   getBlog,
   addBlog,
   updateBlog,
+  updateLikes,
   deleteBlog,
 };
+
+// const update = await Blog.findByIdAndUpdate(blog, {
+//   $set: { likes: { user: req.user.id } },
+// });
+// res.status(200).json(update);

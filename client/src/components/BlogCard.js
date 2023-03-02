@@ -1,11 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { formatISO9075 } from 'date-fns';
 import * as AiIcons from 'react-icons/ai';
+import { blogsContext } from '../context/blogsContext';
 
 export const BlogCard = (prop) => {
   const { _id, image, heading, tags, text, createdAt, likes, user } = prop.post;
+  const token = JSON.parse(sessionStorage.getItem('token'));
   const [author, setAuthor] = useState('');
+  const [blogs, setBlogs] = useContext(blogsContext);
+  const [shareLink, setShareLink] = useState('');
+
+  const handleLikes = async () => {
+    const response = await fetch(`http://localhost:5000/blogs/${_id}`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    const filteredBlog = blogs.map((blog) =>
+      blog._id === _id ? (blog = result) : blog
+    );
+    if (response.status === 200) {
+      setBlogs(filteredBlog);
+    }
+  };
 
   const getAuthor = async () => {
     const response = await fetch(`http://localhost:5000/users/${user}`, {
@@ -21,7 +42,9 @@ export const BlogCard = (prop) => {
     getAuthor();
   }, []);
 
-  const handleLink = () => {};
+  const handleLink = (e) => {
+    navigator.clipboard.writeText(`http://localhost:5000/article/${_id}`);
+  };
 
   return (
     <article className="box-border p-8 shadow sm:overflow-hidden sm:rounded-md">
@@ -33,9 +56,9 @@ export const BlogCard = (prop) => {
 
       <div className="mb-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <figure className="w-9 h-9 overflow-hidden rounded-full">
+          <figure className="h-9 w-9 overflow-hidden rounded-full">
             <img
-              className="object-cover w-full h-full"
+              className="h-full w-full object-cover"
               src={author.picture}
               alt={author.name}
             />
@@ -69,12 +92,13 @@ export const BlogCard = (prop) => {
           <AiIcons.AiOutlineShareAlt />
         </button>
         <button
+          onClick={handleLikes}
           type="button"
           className="box-border rounded-full border p-1 hover:border-midBlue"
         >
           <AiIcons.AiOutlineLike />
         </button>
-        <small className="text-midGrey">{likes}</small>
+        <small className="text-midGrey">{likes.length}</small>
       </div>
 
       <div className="flex gap-3">
@@ -93,7 +117,3 @@ export const BlogCard = (prop) => {
     </article>
   );
 };
-
-{
-  /* <div dangerouslySetInnerHTML={{ __html: text }} /> */
-}

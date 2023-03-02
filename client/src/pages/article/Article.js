@@ -5,7 +5,7 @@ import { formatISO9075 } from 'date-fns';
 
 export const Article = () => {
   const [article, setArticle] = useState(null);
-  const [user, setUser] = useContext(userContext);
+  const [author, setAuthor] = useState('');
   const { id } = useParams();
 
   const getBlog = async () => {
@@ -14,8 +14,20 @@ export const Article = () => {
         'Content-Type': 'application/json',
       },
     });
+
     const blogData = await response.json();
     setArticle(blogData);
+
+    const authorResponse = await fetch(
+      `http://localhost:5000/users/${blogData.user}`,
+      {
+        headers: {
+          headers: { 'Content-Type': 'application/json' },
+        },
+      }
+    );
+    const authorData = await authorResponse.json();
+    setAuthor(authorData);
   };
 
   useEffect(() => {
@@ -29,7 +41,11 @@ export const Article = () => {
     <div className="container mx-auto my-24 max-w-7xl">
       <div className="md:grid md:grid-cols-4 md:gap-10">
         <figure className="mb-10 overflow-hidden rounded-2xl md:col-span-2 md:mb-0">
-          <img className="h-full w-full object-cover" src={`http://localhost:5000/${image}`} alt={heading} />
+          <img
+            className="h-full w-full object-cover"
+            src={`http://localhost:5000/${image}`}
+            alt={heading}
+          />
         </figure>
         <div className="md:col-span-2 ">
           <div id="tags" className="mb-5 flex flex-wrap gap-3">
@@ -47,10 +63,14 @@ export const Article = () => {
           <h1 className="mb-5 text-3xl">{heading}</h1>
           <div className="mb-5 flex items-center justify-between">
             <div className="flex items-center justify-center gap-3">
-              <figure className="w-10 overflow-hidden rounded-full">
-                <img src="" alt="" />
+              <figure className="h-10 w-10 overflow-hidden rounded-full">
+                <img
+                  className="h-full w-full object-cover"
+                  src={author.picture}
+                  alt={author.name}
+                />
               </figure>
-              <p className="text-sm font-semibold">Jill SMith</p>
+              <p className="text-sm font-semibold">{author.name}</p>
             </div>
             <small className="text-xs text-midGrey">
               {formatISO9075(new Date(createdAt))}
