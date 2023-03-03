@@ -28,7 +28,7 @@ const addBlog = asyncHandler(async (req, res) => {
 //GET operations-------------------------------------------
 
 const getAllBlogs = asyncHandler(async (req, res) => {
-  const blog = await Blog.find();
+  const blog = await Blog.find().populate('user', 'picture name email');
   res.status(200).json(blog);
 });
 

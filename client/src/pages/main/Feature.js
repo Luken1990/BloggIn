@@ -6,7 +6,6 @@ import { Pagination } from '../../components/Pagination';
 
 export const Feature = () => {
   const [blogs, setBlogs] = useContext(blogsContext);
-  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(6);
 
@@ -15,12 +14,12 @@ export const Feature = () => {
   const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
 
   const paginate = (pageNum) => {
-    setCurrentPage(pageNum)
-  }
+    setCurrentPage(pageNum);
+  };
 
   return (
-    <section className="mx-auto my-24 max-w-7xl">
-      <div className="mb-12 flex justify-between">
+    <section className="mx-auto max-w-7xl">
+      <div className="mb-12 flex justify-between pt-24">
         <h2 className="text-4xl">Featured Articles</h2>
         <div className="text-4xl">
           <button className="mr-5 hover:text-lightBlue">
@@ -36,7 +35,11 @@ export const Feature = () => {
           return <LgBlogCard key={index} post={item} />;
         })}
       </div>
-      <Pagination postPerPage={postPerPage} totalPost={blogs.length} paginate={paginate} />
+      <Pagination
+        postPerPage={postPerPage}
+        totalPost={blogs.length}
+        paginate={paginate}
+      />
     </section>
   );
 };

@@ -157,7 +157,7 @@ export const Sign = () => {
           </div>
 
           <div className="mt-4 flex items-center justify-between">
-            <span class="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
+            <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
             <button
               className="font-medium text-lightBlue hover:text-midBlue"
               onClick={(e) => {
@@ -169,7 +169,7 @@ export const Sign = () => {
             >
               {signIn ? 'Register' : 'Login'}
             </button>
-            <span class="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
+            <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
           </div>
         </form>
       </div>

@@ -80,7 +80,6 @@ export const Navbar = () => {
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              onClick={handleLogout}
                               href="/admin"
                               className={classNames(
                                 active ? 'bg-gray-100' : '',

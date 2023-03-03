@@ -8,7 +8,7 @@ export const Pagination = ({ postPerPage, totalPost, paginate }) => {
   }
 
   return (
-    <div className="my-10 flex justify-end">
+    <div className="flex justify-end py-10">
       <nav>
         <ul className="list-style-none flex">
           {pageNumber.map((number) => {

@@ -20,7 +20,7 @@ export function UserInfoModal({ user }) {
       <button
         type="button"
         onClick={openModal}
-        className="absolute right-1 top-0 text-2xl"
+        className="absolute right-1 top-0 text-2xl text-midBlue hover:text-nightBlue"
       >
         <FiIcons.FiEdit />
       </button>

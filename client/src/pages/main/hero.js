@@ -1,46 +1,43 @@
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { formatISO9075 } from 'date-fns';
 
 export const Hero = ({ newBlog }) => {
   const { _id, heading, text, image, createdAt } = newBlog;
 
   return (
-    <section className="relative overflow-hidden bg-white dark:bg-gray-900">
-      <div className="mx-auto grid max-w-screen-xl px-4 py-8 lg:grid-cols-12 lg:gap-8 lg:py-16 xl:gap-0">
-        
-        <div className="mr-auto place-self-center lg:col-span-7">
-          <small className="text-xs text-darkGrey">
-            {formatISO9075(new Date(createdAt))}
-          </small>
+    <div className="container mx-auto flex flex-col space-y-6 px-6 py-10 lg:h-[32rem] lg:flex-row lg:items-center lg:py-16">
+      <div className="w-full lg:w-1/2">
+        <div className="lg:max-w-lg">
           <h1 className="mb-4 max-w-2xl text-4xl font-extrabold leading-none tracking-tight  md:text-5xl xl:text-6xl">
             {heading}
           </h1>
+          <small className="text-xs text-midGrey">
+            {formatISO9075(new Date(createdAt))}
+          </small>
           <div
             className='className="mb-6 lg:text-xl" mt-2 max-w-2xl font-light text-darkGrey md:text-lg lg:mb-8'
             dangerouslySetInnerHTML={{
-              __html: text.length > 150 ? text.substring(0, 150) + '...' : text,
+              __html: text.length > 200 ? text.substring(0, 200) + '...' : text,
             }}
           />
-          <a
-            href={`/article/${_id}`}
-            className="text-nighBlue text-sm font-semibold leading-6 hover:text-midBlue"
-          >
-            Continue Reading<span aria-hidden="true">→</span>
-          </a>
+
+          <div className="mt-6 flex flex-col space-y-3 lg:flex-row lg:space-y-0">
+            <a
+              href={`/article/${_id}`}
+              className="text-nighBlue text-sm font-semibold leading-6 hover:text-midBlue"
+            >
+              Continue Reading<span aria-hidden="true">→</span>
+            </a>
+          </div>
         </div>
-        {/* <div className="hidden lg:col-span-5 lg:mt-0 lg:flex">
-          <img src={image} alt="" />
-        </div> */}
       </div>
-      <img
-        className="before:content-[ content:'', position:absolute ] absolute top-0 right-0
-          h-full
-          w-1/2
-        object-cover"
-        src={image}
-        alt=""
-      />
-    </section>
+
+      <div className="flex h-96 w-full items-center justify-center lg:w-1/2">
+        <img
+          className="h-full w-full max-w-2xl rounded-md object-cover"
+          src={image}
+          alt="glasses photo"
+        />
+      </div>
+    </div>
   );
 };

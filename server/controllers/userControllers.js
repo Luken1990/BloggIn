@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 
+//POST operations-------------------------------------------
+
 //function to register user
 const registerUser = asyncHandler(async (req, res) => {
   const { picture, name, email, password, github, linkedin, website } =
@@ -79,6 +81,8 @@ const userLogin = asyncHandler(async (req, res) => {
   }
 });
 
+//GET operations-------------------------------------------
+
 //find user by id in the database
 const getUser = asyncHandler(async (req, res) => {
   const { _id, name, email, picture, github, linkedin, website } =
@@ -103,6 +107,8 @@ const getAuthor = asyncHandler(async (req, res) => {
     name,
   });
 });
+
+//PUT operations-------------------------------------------
 
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
