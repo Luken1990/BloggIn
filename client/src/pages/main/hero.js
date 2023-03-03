@@ -1,68 +1,46 @@
-import React from 'react';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { formatISO9075 } from 'date-fns';
 
-export const Hero = () => {
+export const Hero = ({ newBlog }) => {
+  const { _id, heading, text, image, createdAt } = newBlog;
+
   return (
-    <div className="relative px-6 lg:px-8">
-      <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-        <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-          <div className="relative rounded-full py-1 px-3 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-            Announcing our next round of funding.{' '}
-            <a href="#" className="font-semibold text-indigo-600">
-              <span className="absolute inset-0" aria-hidden="true" />
-              Read more <span aria-hidden="true">&rarr;</span>
-            </a>
-          </div>
-        </div>
-        <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-            Data to enrich your online business
+    <section className="relative overflow-hidden bg-white dark:bg-gray-900">
+      <div className="mx-auto grid max-w-screen-xl px-4 py-8 lg:grid-cols-12 lg:gap-8 lg:py-16 xl:gap-0">
+        
+        <div className="mr-auto place-self-center lg:col-span-7">
+          <small className="text-xs text-darkGrey">
+            {formatISO9075(new Date(createdAt))}
+          </small>
+          <h1 className="mb-4 max-w-2xl text-4xl font-extrabold leading-none tracking-tight  md:text-5xl xl:text-6xl">
+            {heading}
           </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-            lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-            fugiat aliqua.
-          </p>
-          <div className="mt-10 flex items-center justify-center gap-x-6">
-            <a
-              href="#"
-              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Get started
-            </a>
-            <a
-              href="#"
-              className="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Learn more <span aria-hidden="true">→</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
-        <svg
-          className="relative left-[calc(50%+3rem)] h-[21.1875rem] max-w-none -translate-x-1/2 sm:left-[calc(50%+36rem)] sm:h-[42.375rem]"
-          viewBox="0 0 1155 678"
-        >
-          <path
-            fill="url(#ecb5b0c9-546c-4772-8c71-4d3f06d544bc)"
-            fillOpacity=".3"
-            d="M317.219 518.975L203.852 678 0 438.341l317.219 80.634 204.172-286.402c1.307 132.337 45.083 346.658 209.733 145.248C936.936 126.058 882.053-94.234 1031.02 41.331c119.18 108.451 130.68 295.337 121.53 375.223L855 299l21.173 362.054-558.954-142.079z"
+          <div
+            className='className="mb-6 lg:text-xl" mt-2 max-w-2xl font-light text-darkGrey md:text-lg lg:mb-8'
+            dangerouslySetInnerHTML={{
+              __html: text.length > 150 ? text.substring(0, 150) + '...' : text,
+            }}
           />
-          <defs>
-            <linearGradient
-              id="ecb5b0c9-546c-4772-8c71-4d3f06d544bc"
-              x1="1155.49"
-              x2="-78.208"
-              y1=".177"
-              y2="474.645"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#9089FC" />
-              <stop offset={1} stopColor="#FF80B5" />
-            </linearGradient>
-          </defs>
-        </svg>
+          <a
+            href={`/article/${_id}`}
+            className="text-nighBlue text-sm font-semibold leading-6 hover:text-midBlue"
+          >
+            Continue Reading<span aria-hidden="true">→</span>
+          </a>
+        </div>
+        {/* <div className="hidden lg:col-span-5 lg:mt-0 lg:flex">
+          <img src={image} alt="" />
+        </div> */}
       </div>
-    </div>
+      <img
+        className="before:content-[ content:'', position:absolute ] absolute top-0 right-0
+          h-full
+          w-1/2
+        object-cover"
+        src={image}
+        alt=""
+      />
+    </section>
   );
 };

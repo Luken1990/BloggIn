@@ -28,7 +28,6 @@ export const AddForm = () => {
     tag.forEach((tag) => {
       blogInfo.append('tags[]', tag);
     });
-    blogInfo.set('likes', []);
 
     const response = await fetch('http://localhost:5000/blogs/add', {
       method: 'POST',

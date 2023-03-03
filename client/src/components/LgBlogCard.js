@@ -4,7 +4,7 @@ import { formatISO9075 } from 'date-fns';
 import * as AiIcons from 'react-icons/ai';
 import { blogsContext } from '../context/blogsContext';
 
-export const BlogCard = (prop) => {
+export const LgBlogCard = (prop) => {
   const { _id, image, heading, tags, text, createdAt, likes, user } = prop.post;
   const token = JSON.parse(sessionStorage.getItem('token'));
   const [author, setAuthor] = useState('');

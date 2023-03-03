@@ -2,7 +2,7 @@ import { useContext, useEffect, Fragment, useRef, useState } from 'react';
 import * as AiIcons from 'react-icons/ai';
 import * as BsIcons from 'react-icons/bs';
 import { userContext } from '../../context/userContext';
-import { SmBlogCard } from '../../components/SmBlogCard';
+import { MdBlogCard } from '../../components/MdBlogCard';
 import { AddForm } from './AddForm';
 import { UserInfoModal } from './UserInfoModal';
 
@@ -76,7 +76,7 @@ export const Profile = () => {
           </div>
 
           <div className="mt-5 md:col-span-2 md:mt-0">
-            <SmBlogCard />
+            <MdBlogCard />
           </div>
         </div>
       </div>

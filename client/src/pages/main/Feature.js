@@ -1,10 +1,22 @@
-import { BlogCard } from '../../components/BlogCard';
+import { LgBlogCard } from '../../components/LgBlogCard';
 import * as BsIcons from 'react-icons/bs';
 import { useState, useContext } from 'react';
 import { blogsContext } from '../../context/blogsContext';
+import { Pagination } from '../../components/Pagination';
 
 export const Feature = () => {
   const [blogs, setBlogs] = useContext(blogsContext);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage, setPostPerPage] = useState(6);
+
+  const indexOfLastBlog = currentPage * postPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - postPerPage;
+  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+
+  const paginate = (pageNum) => {
+    setCurrentPage(pageNum)
+  }
 
   return (
     <section className="mx-auto my-24 max-w-7xl">
@@ -20,10 +32,11 @@ export const Feature = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 ">
-        {blogs.map((item, index) => {
-          return <BlogCard key={index} post={item} />;
+        {currentBlogs.map((item, index) => {
+          return <LgBlogCard key={index} post={item} />;
         })}
       </div>
+      <Pagination postPerPage={postPerPage} totalPost={blogs.length} paginate={paginate} />
     </section>
   );
 };
