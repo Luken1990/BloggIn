@@ -21,6 +21,10 @@ const UserSchema = new Schema(
       trim: true,
       required: true,
     },
+    admin: {
+      type: Boolean,
+      default: false,
+    },
     password: {
       type: String,
       trim: true,

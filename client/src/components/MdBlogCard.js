@@ -3,6 +3,7 @@ import { userContext } from '../context/userContext';
 import { Link } from 'react-router-dom';
 import { formatISO9075 } from 'date-fns';
 import EditBlogModal from '../pages/profile/EditBlogModal';
+import * as MdIcons from 'react-icons/md';
 
 export const MdBlogCard = () => {
   // const [user, setUser] = useContext(userContext);
@@ -25,8 +26,6 @@ export const MdBlogCard = () => {
 
   const handleDelete = async (id) => {
     const filteredBlog = post.filter((item) => item._id !== id);
-    console.log(filteredBlog);
-
     const response = await fetch(`http://localhost:5000/blogs/${id}`, {
       method: 'DELETE',
       headers: {
@@ -80,9 +79,9 @@ export const MdBlogCard = () => {
                 <button
                   type="button"
                   onClick={() => handleDelete(blog._id)}
-                  className="inline-flex justify-center rounded-md border border-transparent bg-nightBlue py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-bg-darkBlue focus:outline-none focus:ring-2 focus:ring-bg-darkBlue focus:ring-offset-2"
+                  className="text-xl text-midBlue transition-colors duration-200 hover:text-nightBlue focus:outline-none"
                 >
-                  Delete
+                  <MdIcons.MdDeleteOutline />
                 </button>
               </div>
             </div>

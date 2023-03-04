@@ -47,27 +47,3 @@ module.exports = {
   checkJWTToken,
   checkContentType
 };
-
-
-
-
-//arrow function with three parameter, request, response, next
-//if new password equals confirmed password and new password length is more than or equals 6
-//new user password equals new password
-// const changePasswordVerification = (req, res, next) => {
-//   if (
-//     req.body.newPassword == req.body.confirmedPassword &&
-//     req.body.newPassword.length >= 6
-//   ) {
-//     req.newUserPassword = req.body.newPassword;
-//     next();
-//   } else if (req.body.newPassword < 6) {
-//     res.send({ message: 'Please enter six or more characters' });
-//     next();
-//   } else {
-//     res.send({
-//       message: 'Confirmation password and new password does not match',
-//     });
-//     next();
-//   }
-// };

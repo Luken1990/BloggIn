@@ -27,17 +27,19 @@ const addBlog = asyncHandler(async (req, res) => {
 
 //GET operations-------------------------------------------
 
+//get all blog from database
 const getAllBlogs = asyncHandler(async (req, res) => {
   const blog = await Blog.find().populate('user', 'picture name email');
   res.status(200).json(blog);
 });
 
-//find using id status 200 ok
+//find all users blogs
 const getBlogs = asyncHandler(async (req, res) => {
   const blog = await Blog.find({ user: req.user.id });
   res.status(200).json(blog);
 });
 
+//get blog that match the id
 const getBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
   res.status(200).json(blog);
@@ -65,13 +67,7 @@ const updateBlog = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 
-  //if the todo item user id does not match the user id throw error (401) (unauthorized)
-  if (blog.user.toString() !== user.id) {
-    res.status(401);
-    throw new Error('User not authorized');
-  }
-
-  //check if there is a file
+  //if there is a file
   if (req.file) {
     const { originalname, path } = req.file;
     const parts = originalname.split('.');
@@ -80,15 +76,20 @@ const updateBlog = asyncHandler(async (req, res) => {
     fs.renameSync(path, newPath);
   }
 
-  //find todo by id then update it
-  const update = await Blog.findByIdAndUpdate(blog, {
-    image: newPath ? newPath : blog.image,
-    heading,
-    text,
-    tags,
-    likes,
-  });
-  res.status(200).json(update);
+  //if user id match or user is admin edit blog else throw 401 error
+  if (blog.user.toString() === user.id || user.admin === true) {
+    const update = await Blog.findByIdAndUpdate(blog, {
+      image: newPath ? newPath : blog.image,
+      heading,
+      text,
+      tags,
+      likes,
+    });
+    res.status(200).json(update);
+  } else {
+    res.status(401);
+    throw new Error('User not authorized');
+  }
 });
 
 //PATCH operations-------------------------------------------
@@ -113,7 +114,7 @@ const updateLikes = asyncHandler(async (req, res) => {
 const deleteBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
 
-  //if todo was not found return status 400 bad request
+  //if blog was not found return status 400 bad request
   //send message not found
   if (!blog) {
     res.status(400);
@@ -129,15 +130,14 @@ const deleteBlog = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 
-  //if the todo item user id does not match the user id throw error (401) (unauthorized)
-  if (blog.user.toString() !== user.id) {
+  //if user id match or user is admin delete  else throw error
+  if (blog.user.toString() === user.id || user.admin === true) {
+    await blog.remove();
+    res.status(200).send({ message: 'Blog deleted' });
+  } else {
     res.status(401);
     throw new Error('User not authorized');
   }
-
-  //remove todo
-  await blog.remove();
-  res.status(200).send({ message: 'Blog deleted' });
 });
 
 module.exports = {
@@ -149,8 +149,3 @@ module.exports = {
   updateLikes,
   deleteBlog,
 };
-
-// const update = await Blog.findByIdAndUpdate(blog, {
-//   $set: { likes: { user: req.user.id } },
-// });
-// res.status(200).json(update);

@@ -9,7 +9,6 @@ export const LgBlogCard = (prop) => {
   const token = JSON.parse(sessionStorage.getItem('token'));
   const [author, setAuthor] = useState('');
   const [blogs, setBlogs] = useContext(blogsContext);
-  const [shareLink, setShareLink] = useState('');
 
   const handleLikes = async () => {
     const response = await fetch(`http://localhost:5000/blogs/${_id}`, {
@@ -29,7 +28,7 @@ export const LgBlogCard = (prop) => {
   };
 
   const getAuthor = async () => {
-    const response = await fetch(`http://localhost:5000/users/${user}`, {
+    const response = await fetch(`http://localhost:5000/users/${user._id}`, {
       headers: {
         headers: { 'Content-Type': 'application/json' },
       },

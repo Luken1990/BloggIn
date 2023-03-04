@@ -32,6 +32,7 @@ const registerUser = asyncHandler(async (req, res) => {
     picture,
     name,
     email,
+    admin,
     github,
     linkedin,
     website,
@@ -41,13 +42,13 @@ const registerUser = asyncHandler(async (req, res) => {
   //if user created is successful send 200 status created
   if (user) {
     res.status(201).json({
-      _id: user.id,
-      picture: user.picture,
-      name: user.name,
-      email: user.email,
-      github: user.github,
-      linkedin: user.linkedin,
-      website: user.website,
+      // _id: user.id,
+      // picture: user.picture,
+      // name: user.name,
+      // email: user.email,
+      // github: user.github,
+      // linkedin: user.linkedin,
+      // website: user.website,
       token: generateToken(user._id),
     });
   } else {
@@ -66,13 +67,13 @@ const userLogin = asyncHandler(async (req, res) => {
   //if user email and password match return user and token else throw error code
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
-      _id: user.id,
-      picture: user.picture,
-      name: user.name,
-      email: user.email,
-      github: user.github,
-      linkedin: user.linkedin,
-      website: user.website,
+      // _id: user.id,
+      // picture: user.picture,
+      // name: user.name,
+      // email: user.email,
+      // github: user.github,
+      // linkedin: user.linkedin,
+      // website: user.website,
       token: generateToken(user._id),
     });
   } else {
@@ -85,7 +86,7 @@ const userLogin = asyncHandler(async (req, res) => {
 
 //find user by id in the database
 const getUser = asyncHandler(async (req, res) => {
-  const { _id, name, email, picture, github, linkedin, website } =
+  const { _id, name, email, admin, picture, github, linkedin, website } =
     await User.findById(req.user.id);
 
   res.status(200).json({
@@ -93,6 +94,7 @@ const getUser = asyncHandler(async (req, res) => {
     picture,
     name,
     email,
+    admin,
     github,
     linkedin,
     website,

@@ -18,7 +18,6 @@ export const Profile = () => {
       },
     });
     const currentUser = await response.json();
-
     setUser(currentUser);
   };
 

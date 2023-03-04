@@ -20,15 +20,7 @@ export const Feature = () => {
   return (
     <section className="mx-auto max-w-7xl">
       <div className="mb-12 flex justify-between pt-24">
-        <h2 className="text-4xl">Featured Articles</h2>
-        <div className="text-4xl">
-          <button className="mr-5 hover:text-lightBlue">
-            <BsIcons.BsArrowLeft />
-          </button>
-          <button className="hover:text-lightBlue ">
-            <BsIcons.BsArrowRight />
-          </button>
-        </div>
+        <h2 className="text-4xl">Articles</h2>
       </div>
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 ">
         {currentBlogs.map((item, index) => {
@@ -43,3 +35,14 @@ export const Feature = () => {
     </section>
   );
 };
+
+{
+  /* <div className="text-4xl">
+          <button className="mr-5 hover:text-lightBlue">
+            <BsIcons.BsArrowLeft />
+          </button>
+          <button className="hover:text-lightBlue ">
+            <BsIcons.BsArrowRight />
+          </button>
+        </div> */
+}

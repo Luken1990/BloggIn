@@ -1,6 +1,8 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { EditForm } from './EditForm';
+import * as FiIcons from 'react-icons/fi';
+import * as MdIcons from 'react-icons/md';
 
 export default function EditBlogModal({ data }) {
   let [isOpen, setIsOpen] = useState(false);
@@ -17,9 +19,9 @@ export default function EditBlogModal({ data }) {
       <button
         type="button"
         onClick={openModal}
-        className="hover:bg-bg-darkBlue focus:ring-bg-darkBlue inline-flex justify-center rounded-md border border-transparent bg-nightBlue py-2 px-4 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
+        className="text-xl text-midBlue transition-colors duration-200 hover:text-nightBlue focus:outline-none"
       >
-        Edit
+        <FiIcons.FiEdit />
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>

@@ -8,6 +8,21 @@ import * as MdIcons from 'react-icons/md';
 
 export const SmBlogCard = (prop) => {
   const [blogs, setBlogs] = useContext(blogsContext);
+  const token = JSON.parse(sessionStorage.getItem('token'));
+
+  const handleDelete = async (id) => {
+    const filteredBlog = blogs.filter((item) => item._id !== id);
+    const response = await fetch(`http://localhost:5000/blogs/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+      body: JSON.stringify(filteredBlog),
+    });
+    if (response.status === 200) {
+      setBlogs(filteredBlog);
+    }
+  };
 
   return (
     <>
@@ -42,11 +57,13 @@ export const SmBlogCard = (prop) => {
             </td>
             <td className="whitespace-nowrap px-4 py-4 text-sm">
               <div className="flex items-center gap-x-6">
-                <button className="text-xl text-midBlue transition-colors duration-200 hover:text-nightBlue  focus:outline-none">
-                  <FiIcons.FiEdit />
-                </button>
+                <EditBlogModal data={blog} />
 
-                <button className="text-xl text-midBlue transition-colors duration-200 hover:text-nightBlue focus:outline-none">
+                <button
+                  type="button"
+                  onClick={() => handleDelete(blog._id)}
+                  className="text-xl text-midBlue transition-colors duration-200 hover:text-nightBlue focus:outline-none"
+                >
                   <MdIcons.MdDeleteOutline />
                 </button>
               </div>

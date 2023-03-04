@@ -30,7 +30,7 @@ function App() {
 
   useEffect(() => {
     getBlogs();
-  }, []);
+  }, [blogs]);
 
   if (!newBlog) return '';
 
@@ -41,7 +41,7 @@ function App() {
         <Route path="/" element={<Main newBlog={newBlog} />} />
         <Route path="/sign" element={<Sign />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/admin" element={<Admin blogs={blogs}/>} />
+        <Route path="/admin" element={<Admin blogs={blogs} />} />
         <Route path="/article/:id" element={<Article />} />
       </Routes>
       <Footer />
