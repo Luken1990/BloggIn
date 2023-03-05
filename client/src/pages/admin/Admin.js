@@ -1,10 +1,9 @@
-import { SmBlogCard } from '../../components/SmBlogCard';
-import { blogsContext } from '../../context/blogsContext';
-import { useContext } from 'react';
+import { SmBlogCard } from './SmBlogCard';
 
+//admin page component
+//return a section containing a table
+//with user and blog information
 export const Admin = () => {
-  const [blogs, setBlogs] = useContext(blogsContext);
-
   return (
     <section className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
       <div className="mt-6 flex flex-col">

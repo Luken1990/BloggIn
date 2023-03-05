@@ -1,23 +1,17 @@
 const Blog = require('../models/blogSchema');
 const User = require('../models/userSchema');
 const asyncHandler = require('express-async-handler');
-const fs = require('fs');
 
 //POST operations-------------------------------------------
 
 const addBlog = asyncHandler(async (req, res) => {
-  const { originalname, path } = req.file;
-  const parts = originalname.split('.');
-  const ext = parts.at(-1);
-  const newPath = `${path}.${ext}`;
-  fs.renameSync(path, newPath);
+  const { image, heading, text, tags } = req.body;
 
   const newBlog = new Blog({
-    image: newPath,
-    heading: req.body.heading,
-    text: req.body.text,
-    tags: req.body.tags,
-    likes: req.body.likes,
+    image: image,
+    heading: heading,
+    text: text,
+    tags: tags,
     user: req.user.id,
   });
 
@@ -49,7 +43,6 @@ const getBlog = asyncHandler(async (req, res) => {
 
 const updateBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
-  let newPath = null;
   const { heading, text, tags, likes } = req.body;
 
   //check if blog exist
@@ -67,24 +60,9 @@ const updateBlog = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 
-  //if there is a file
-  if (req.file) {
-    const { originalname, path } = req.file;
-    const parts = originalname.split('.');
-    const ext = parts.at(-1);
-    newPath = `${path}.${ext}`;
-    fs.renameSync(path, newPath);
-  }
-
   //if user id match or user is admin edit blog else throw 401 error
   if (blog.user.toString() === user.id || user.admin === true) {
-    const update = await Blog.findByIdAndUpdate(blog, {
-      image: newPath ? newPath : blog.image,
-      heading,
-      text,
-      tags,
-      likes,
-    });
+    const update = await Blog.findByIdAndUpdate(blog, req.body);
     res.status(200).json(update);
   } else {
     res.status(401);
@@ -96,7 +74,6 @@ const updateBlog = asyncHandler(async (req, res) => {
 
 const updateLikes = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
-
   if (
     blog.likes.filter((item) => item.user.toString() === req.user.id).length > 0
   ) {

@@ -1,5 +1,6 @@
 import * as AiIcons from 'react-icons/ai';
 
+//footer component which return all social media links and copyright info
 export const Footer = () => {
   const socials = [
     {

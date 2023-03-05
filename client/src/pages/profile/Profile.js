@@ -9,22 +9,6 @@ import { UserInfoModal } from './UserInfoModal';
 export const Profile = () => {
   const [user, setUser] = useContext(userContext);
 
-  const token = JSON.parse(sessionStorage.getItem('token'));
-
-  const getCurrentUser = async () => {
-    const response = await fetch('http://localhost:5000/users', {
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    });
-    const currentUser = await response.json();
-    setUser(currentUser);
-  };
-
-  useEffect(() => {
-    getCurrentUser();
-  }, [user]);
-
   if (!user) return '';
 
   return (
@@ -82,3 +66,19 @@ export const Profile = () => {
     </div>
   );
 };
+
+// const token = JSON.parse(sessionStorage.getItem('token'));
+
+// const getCurrentUser = async () => {
+//   const response = await fetch('http://localhost:5000/users', {
+//     headers: {
+//       Authorization: 'Bearer ' + token,
+//     },
+//   });
+//   const currentUser = await response.json();
+//   setUser(currentUser);
+// };
+
+// useEffect(() => {
+//   getCurrentUser();
+// }, [user]);

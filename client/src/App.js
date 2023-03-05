@@ -8,11 +8,15 @@ import { Admin } from './pages/admin/Admin';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { blogsContext } from './context/blogsContext';
+import { userContext } from './context/userContext';
 
 function App() {
+  const token = JSON.parse(sessionStorage.getItem('token'));
   const [blogs, setBlogs] = useContext(blogsContext);
+  const [user, setUser] = useContext(userContext);
   const [newBlog, setNewBlog] = useState(null);
 
+  //get request to retrieve all blogs
   const getBlogs = async () => {
     const response = await fetch('http://localhost:5000/blogs/all', {
       headers: {
@@ -20,7 +24,7 @@ function App() {
       },
     });
     const blogData = await response.json();
-
+    //get the latest blog based on created date and set state
     const latestBlogs = blogData.reduce((a, b) =>
       a.createdAt > b.createdAt ? a : b
     );
@@ -28,7 +32,22 @@ function App() {
     setBlogs(blogData);
   };
 
+  //get the current logged in user
+  const getCurrentUser = async () => {
+    const response = await fetch('http://localhost:5000/users', {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    const currentUser = await response.json();
+    setUser(currentUser);
+  };
+
+  //if token is true get the current user 
   useEffect(() => {
+    if (token) {
+      getCurrentUser();
+    }
     getBlogs();
   }, [blogs]);
 

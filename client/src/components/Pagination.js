@@ -3,10 +3,12 @@ import React from 'react';
 export const Pagination = ({ postPerPage, totalPost, paginate }) => {
   const pageNumber = [];
 
+  //determine how many pages are required base on total post divided by post per page
   for (let i = 1; i <= Math.ceil(totalPost / postPerPage); i++) {
     pageNumber.push(i);
   }
 
+  //return an un-ordered list containing the number of pages
   return (
     <div className="flex justify-end py-10">
       <nav>

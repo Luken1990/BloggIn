@@ -2,6 +2,7 @@ import React from 'react';
 import { tags } from '../../data/Tags';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import * as AiIcons from 'react-icons/ai';
 
 export const FormFields = ({
   heading,
@@ -9,6 +10,7 @@ export const FormFields = ({
   tag,
   text,
   setText,
+  image,
   setImage,
   handleTag,
   handleBlog,
@@ -30,7 +32,7 @@ export const FormFields = ({
                   type="text"
                   name="title"
                   id="title"
-                  className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 sm:text-sm"
                   placeholder="My first blog"
                   value={heading}
                   onChange={(e) => setHeading(e.target.value)}
@@ -82,18 +84,24 @@ export const FormFields = ({
             </div>
           </div>
 
-          <input
-            className="focus:border-primary focus:shadow-primary relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out file:-mx-3 file:-my-1.5 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-1.5 file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[margin-inline-end:0.75rem] file:[border-inline-end-width:1px] hover:file:bg-neutral-200 focus:bg-white focus:text-neutral-700 focus:shadow-[0_0_0_1px] focus:outline-none dark:bg-transparent dark:text-neutral-200 dark:focus:bg-transparent"
-            type="file"
-            id="formFile"
-            multiple
-            onChange={(e) => setImage(e.target.files)}
-          />
+          <div className="mb-3 flex items-center rounded-md border border-gray-300 text-gray-400">
+            <div className="rounded-l-md border-r bg-gray-50 px-3 py-2.5">
+              <AiIcons.AiOutlinePicture />
+            </div>
+            <input
+              className="mx-2 w-full border-none bg-transparent p-1 text-sm outline-none"
+              type="text"
+              name="image"
+              placeholder="Image URL"
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+            />
+          </div>
         </div>
         <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
           <button
             onClick={handleBlog}
-            className="inline-flex justify-center rounded-md border border-transparent bg-nightBlue py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-bg-darkBlue focus:outline-none focus:ring-2 focus:ring-bg-darkBlue focus:ring-offset-2"
+            className="hover:bg-bg-darkBlue focus:ring-bg-darkBlue inline-flex justify-center rounded-md border border-transparent bg-nightBlue py-2 px-4 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
           >
             Add
           </button>

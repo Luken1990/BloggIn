@@ -10,6 +10,7 @@ export const LgBlogCard = (prop) => {
   const [author, setAuthor] = useState('');
   const [blogs, setBlogs] = useContext(blogsContext);
 
+  // patch request that store user id to indicate the user has liked the blog
   const handleLikes = async () => {
     const response = await fetch(`http://localhost:5000/blogs/${_id}`, {
       method: 'PATCH',
@@ -19,14 +20,19 @@ export const LgBlogCard = (prop) => {
       },
     });
     const result = await response.json();
+
+    //map through blogs
+    //if blog id matches id update the blog else return blog
     const filteredBlog = blogs.map((blog) =>
       blog._id === _id ? (blog = result) : blog
     );
+    //if response is ok set blog to the updated blog
     if (response.status === 200) {
       setBlogs(filteredBlog);
     }
   };
 
+  //get the author of the current blog
   const getAuthor = async () => {
     const response = await fetch(`http://localhost:5000/users/${user._id}`, {
       headers: {
@@ -41,10 +47,12 @@ export const LgBlogCard = (prop) => {
     getAuthor();
   }, []);
 
+  //copy the blog article link to clipboard
   const handleLink = (e) => {
-    navigator.clipboard.writeText(`http://localhost:5000/article/${_id}`);
+    navigator.clipboard.writeText(`http://localhost:3000/article/${_id}`);
   };
 
+  //return a article containing user blog information
   return (
     <article className="box-border p-8 shadow sm:overflow-hidden sm:rounded-md">
       <figure className="mb-5 ">

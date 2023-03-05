@@ -7,7 +7,7 @@ const asyncHandler = require('express-async-handler');
 
 //function to register user
 const registerUser = asyncHandler(async (req, res) => {
-  const { picture, name, email, password, github, linkedin, website } =
+  const { picture, name, email, admin, password, github, linkedin, website } =
     req.body;
 
   //if one of the field is empty throw error status 400 and message

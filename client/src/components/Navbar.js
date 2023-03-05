@@ -4,6 +4,7 @@ import { userContext } from '../context/userContext';
 import { Link } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 
+//nav component
 export const Navbar = () => {
   const token = JSON.parse(sessionStorage.getItem('token'));
   const [user, setUser] = useContext(userContext);
@@ -13,11 +14,13 @@ export const Navbar = () => {
     return classes.filter(Boolean).join(' ');
   }
 
+  //on click remove user token from session storage
   const handleLogout = (e) => {
     sessionStorage.removeItem('token');
     setUser('');
   };
 
+  //nav element containing a logo and button to allow user to login and navigate the website
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (

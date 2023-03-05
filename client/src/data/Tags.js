@@ -2,6 +2,7 @@ import * as AiIcons from 'react-icons/ai'
 import * as DiIcons from 'react-icons/di'
 import * as SiIcons from 'react-icons/si'
 
+//array of object containing tag names and icon
 export const tags = [
   {
     name:'HTML',

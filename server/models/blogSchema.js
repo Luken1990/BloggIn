@@ -7,7 +7,7 @@ const BlogSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'User',
-    }, 
+    },
     image: {
       type: String,
       trim: true,
@@ -24,6 +24,7 @@ const BlogSchema = new mongoose.Schema(
     },
     tags: {
       type: Array,
+      default: [],
       required: true,
     },
     likes: {

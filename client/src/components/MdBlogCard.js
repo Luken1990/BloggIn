@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 import { formatISO9075 } from 'date-fns';
 import EditBlogModal from '../pages/profile/EditBlogModal';
 import * as MdIcons from 'react-icons/md';
+import { deleteBlog } from '../apiCalls/blogApiCalls';
 
 export const MdBlogCard = () => {
   // const [user, setUser] = useContext(userContext);
   const token = JSON.parse(sessionStorage.getItem('token'));
   const [post, setPost] = useState([]);
 
+  //get request to retrieve user blogs
   const getUserBlogs = async () => {
     const response = await fetch('http://localhost:5000/blogs', {
       headers: {
@@ -17,13 +19,19 @@ export const MdBlogCard = () => {
       },
     });
     const blogData = await response.json();
+
     setPost(blogData);
   };
 
+  //re-render if there are any changes to the post
   useEffect(() => {
     getUserBlogs();
   }, [post]);
 
+  //delete request that take in an id
+  //filter out the blog that matches the id
+  //pass user token into the header
+  //set blogs to filtered blogs
   const handleDelete = async (id) => {
     const filteredBlog = post.filter((item) => item._id !== id);
     const response = await fetch(`http://localhost:5000/blogs/${id}`, {
@@ -37,6 +45,8 @@ export const MdBlogCard = () => {
     setPost(filteredBlog);
   };
 
+  //map through the entire blog array and return an element containing all blog information
+  //add button to let user delete and edit post
   return (
     <>
       {post.map((blog) => {
@@ -48,7 +58,7 @@ export const MdBlogCard = () => {
             <Link to={`/article/${blog._id}`}>
               <img
                 className="h-56 w-full rounded-lg object-cover lg:w-64"
-                src={'http://localhost:5000/' + blog.image}
+                src={blog.image}
                 alt=""
               />
             </Link>

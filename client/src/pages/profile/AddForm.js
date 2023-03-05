@@ -1,12 +1,12 @@
 import { React, useRef, useState, useContext } from 'react';
 import { FormFields } from './FormFields';
+import { postNewBlog } from '../../apiCalls/blogApiCalls';
 
 export const AddForm = () => {
   const token = JSON.parse(sessionStorage.getItem('token'));
   const [image, setImage] = useState('');
   const [heading, setHeading] = useState('');
   const [text, setText] = useState('');
-
   const [tag, setTag] = useState([]);
 
   const handleTag = (arr) => {
@@ -21,23 +21,13 @@ export const AddForm = () => {
 
   const handleNewBlog = async (e) => {
     e.preventDefault();
-    let blogInfo = new FormData();
-    blogInfo.set('image', image[0]);
-    blogInfo.set('heading', heading);
-    blogInfo.set('text', text);
-    tag.forEach((tag) => {
-      blogInfo.append('tags[]', tag);
-    });
-
-    const response = await fetch('http://localhost:5000/blogs/add', {
-      method: 'POST',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-      body: blogInfo,
-    });
-    await response.json();
-
+    const newBlog = {
+      image: image,
+      heading: heading,
+      text: text,
+      tags: tag,
+    };
+    postNewBlog('http://localhost:5000/blogs/add', newBlog);
     setImage('');
     setTag([]);
     setHeading('');
@@ -51,6 +41,7 @@ export const AddForm = () => {
       text={text}
       tag={tag}
       setText={setText}
+      image={image}
       setImage={setImage}
       handleTag={handleTag}
       handleBlog={handleNewBlog}

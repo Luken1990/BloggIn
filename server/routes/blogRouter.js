@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const uploadMiddleWare = multer({ dest: 'uploads/' });
+// const multer = require('multer');
 
 const {
   getAllBlogs,
@@ -16,10 +15,10 @@ const {
 const { checkJWTToken, checkContentType } = require('../middleware/middleware');
 
 //post request
-router.post('/add', checkJWTToken, uploadMiddleWare.single('image'), addBlog);
+router.post('/add', checkJWTToken, addBlog);
 
 //put request
-router.put('/:id', checkJWTToken, uploadMiddleWare.single('image'), updateBlog);
+router.put('/:id', checkJWTToken, updateBlog);
 
 //patch request
 router.patch('/:id', checkJWTToken, updateLikes);

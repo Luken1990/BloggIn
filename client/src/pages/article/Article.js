@@ -43,7 +43,7 @@ export const Article = () => {
         <figure className="mb-10 overflow-hidden rounded-2xl md:col-span-2 md:mb-0">
           <img
             className="h-full w-full object-cover"
-            src={`http://localhost:5000/${image}`}
+            src={image}
             alt={heading}
           />
         </figure>

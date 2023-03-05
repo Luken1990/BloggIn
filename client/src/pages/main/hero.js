@@ -4,7 +4,7 @@ export const Hero = ({ newBlog }) => {
   const { _id, heading, text, image, createdAt } = newBlog;
 
   return (
-    <div className="container mx-auto flex flex-col space-y-6 px-6 py-10 lg:h-[32rem] lg:flex-row lg:items-center lg:py-16">
+    <div className="gap-4 container mx-auto flex flex-col space-y-6 px-6 py-10 lg:h-[32rem] lg:flex-row lg:items-center lg:py-16 xl:gap-0">
       <div className="w-full lg:w-1/2">
         <div className="lg:max-w-lg">
           <h1 className="mb-4 max-w-2xl text-4xl font-extrabold leading-none tracking-tight  md:text-5xl xl:text-6xl">
